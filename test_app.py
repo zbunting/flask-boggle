@@ -33,8 +33,16 @@ class BoggleAppTestCase(TestCase):
         """Test starting a new game."""
 
         with app.test_client() as client:
-            response = client.get('/api/new-game')
+            response = client.post('/api/new-game')
             json = response.get_json()
-            print(f"WHAT IS THIS {json}")
-
-            self.assertEqual(type(json["gameId"]), "String")
+            
+            # check if gameId is a string type
+            self.assertIsInstance(json["gameId"], str, "gameId is not a string")
+            
+            # check that all rows in board are list types
+            for row in json['board']:
+                self.assertIsInstance(row, list, "row is not a list")
+            
+            # check if game was added to games dictionary
+            self.assertEqual(len(games), 1, "games dictionary len is not one")
+            
