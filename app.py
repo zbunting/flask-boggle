@@ -32,25 +32,30 @@ def new_game():
     game = BoggleGame()
     games[game_id] = game
 
-    test = {"gameId": game_id, "board": game.board}
+    game_data = {"gameId": game_id, "board": game.board}
 
-    return jsonify(test)
+    return jsonify(game_data)
 
 @app.post("/api/score-word")
 def score_word():
+    """Checks if word is legal and returns JSON with the result
+    
+    Returns: JSON of {'result': 'result_msg'}
+    """
+    
     word = request.json['word']
     gameId = request.json['gameId']
     game = games[gameId]
     
     if not game.is_word_in_word_list(word):
-        return jsonify({'result': "not-word"})
+        return jsonify(result = "not-word") #NOTE: can pass jsonify keyword params
     
     if not game.check_word_on_board(word):
-        return jsonify({'result': "not-on-board"})
+        return jsonify(result = "not-on-board")
     
     if not game.is_word_not_a_dup(word):
-        return jsonify({'result': "word-is-dupe"})
+        return jsonify(result = "word-is-dupe")
     
-    return jsonify({'result': "ok"})
+    return jsonify(result = "ok")
     
     
