@@ -33,6 +33,8 @@ class WordList:
         >>> wl = WordList("dictionary.txt")
         >>> wl.check_word("RULE")
         True
+        >>> w1.check_word("rule")
+        False
         >>> wl.check_word("AZZQ")
         False
         """
