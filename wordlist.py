@@ -19,8 +19,8 @@ class WordList:
         return f"<WordList len={len(self.words)}>"
 
     def _read_dict(self, dict_path):
-        """Read dictionary file at dict_path and return set of words."""
-
+        """Read dictionary file at dict_path and return set of words.
+        """
         dict_file = open(dict_path)
         words = {w.strip().upper() for w in dict_file}
         dict_file.close()
@@ -28,7 +28,14 @@ class WordList:
         return words
 
     def check_word(self, word):
-        """Is word in word list?"""
+        """Is word in word list?
+        
+        >>> wl = WordList("dictionary.txt")
+        >>> wl.check_word("RULE")
+        True
+        >>> wl.check_word("AZZQ")
+        False
+        """
 
         return word in self.words
 
