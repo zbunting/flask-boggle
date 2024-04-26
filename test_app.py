@@ -20,18 +20,21 @@ class BoggleAppTestCase(TestCase):
         with app.test_client() as client:
             response = client.get('/')
             html = response.get_data(as_text=True)
-            
+
             self.assertEqual(response.status_code, 200)
-            
-            #NOTE: no closing angle bracket -> checks for any table on page
+
+            # NOTE: no closing angle bracket -> checks for any table on page
             self.assertIn('<table', html)
-            
-            #NOTE: can check comments left in jinja template
-            self.assertIn('homepage template', html) 
+
+            # NOTE: can check comments left in jinja template
+            self.assertIn('homepage template', html)
 
     def test_api_new_game(self):
         """Test starting a new game."""
 
         with app.test_client() as client:
-            ...
-            # write a test for this route
+            response = client.get('/api/new-game')
+            json = response.get_json()
+            print(f"WHAT IS THIS {json}")
+
+            self.assertEqual(type(json["gameId"]), "String")
