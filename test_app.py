@@ -22,7 +22,12 @@ class BoggleAppTestCase(TestCase):
             html = response.get_data(as_text=True)
             
             self.assertEqual(response.status_code, 200)
-            self.assertIn('<table class="board">', html)
+            
+            #NOTE: no closing angle bracket -> checks for any table on page
+            self.assertIn('<table', html)
+            
+            #NOTE: can check comments left in jinja template
+            self.assertIn('homepage template', html) 
 
     def test_api_new_game(self):
         """Test starting a new game."""
