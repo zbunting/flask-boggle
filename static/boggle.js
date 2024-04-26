@@ -25,9 +25,17 @@ async function start() {
 /** Display board */
 
 function displayBoard(board) {
-  // TODO
-  // table.innerHTML = '';
-  // loop over board and create the DOM tr/td structure
+  $table.innerHTML = '';
+  const $tableBody = $table.createTBody();
+  
+  for(let row = 0; row < board.length; row++){
+    const $row = $tableBody.insertRow();
+    for(let column = 0; column < board[row].length; column++){
+      const $letter = $row.insertCell();
+      $letter.innerText = board[row][column];
+    }
+  } 
+  
 }
 
 
