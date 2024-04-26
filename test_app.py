@@ -32,6 +32,8 @@ class BoggleAppTestCase(TestCase):
     def test_api_new_game(self):
         """Test starting a new game."""
 
+        self.assertEqual(len(games), 0, "games dictionary len is not one")
+
         with app.test_client() as client:
             response = client.post('/api/new-game')
             json = response.get_json()
@@ -48,7 +50,7 @@ class BoggleAppTestCase(TestCase):
             self.assertEqual(len(games), 1, "games dictionary len is not one")
 
     def test_score_words(self):
-        """"""
+        """Test scoring words"""
 
         with app.test_client() as client:
             response = client.post('/api/new-game')
@@ -59,28 +61,28 @@ class BoggleAppTestCase(TestCase):
             game = games[game_id]
             game.board = [["C", "A", "T"], ["O", "X", "X"], ["X", "G", "X"]]
 
+            # check not-word response
             response = client.post(
                 '/api/score-word',
-                json={"gameId": game_id,
-                      "word": "CTT"}
+                json={"gameId": game_id, "word": "CTT"}
             )
 
             json = response.get_json()
             self.assertEqual(json["result"], "not-word")
 
+            # check not-on-board response
             response = client.post(
                 '/api/score-word',
-                json={"gameId": game_id,
-                      "word": "DOG"}
+                json={"gameId": game_id, "word": "DOG"}
             )
 
             json = response.get_json()
             self.assertEqual(json["result"], "not-on-board")
 
+            # check ok response
             response = client.post(
                 '/api/score-word',
-                json={"gameId": game_id,
-                      "word": "CAT"}
+                json={"gameId": game_id, "word": "CAT"}
             )
 
             json = response.get_json()
